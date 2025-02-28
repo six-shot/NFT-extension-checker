@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "NFT Wallet Viewer",
+  "version": "1.0",
+  "description": "View NFTs in your wallet",
+  "permissions": ["storage", "activeTab"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
