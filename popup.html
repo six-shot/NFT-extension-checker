@@ -3,6 +3,15 @@
   <head>
     <title>NFT Wallet Viewer</title>
     <link rel="stylesheet" href="styles.css" />
+    <!-- Add helper function to handle IPFS URLs -->
+    <script>
+      function getIPFSGatewayURL(ipfsURL) {
+        // Remove ipfs:// prefix if present
+        const cleanURL = ipfsURL.replace("ipfs://", "");
+        // Use a public IPFS gateway (you can change this to other gateways)
+        return `https://ipfs.io/ipfs/${cleanURL}`;
+      }
+    </script>
   </head>
   <body>
     <div class="container">

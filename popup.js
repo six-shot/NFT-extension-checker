@@ -62,20 +62,35 @@ function displayNFTs(nfts) {
     const card = document.createElement("div");
     card.className = "nft-card";
 
-    // Get image URL, fallback to placeholder if not available
-    const imageUrl =
-      nft.image?.cachedUrl ||
-      nft.image?.originalUrl ||
-      "path/to/placeholder.png";
+    // Handle image URL
+    let imageUrl;
+    if (nft.image?.cachedUrl) {
+      imageUrl = nft.image.cachedUrl;
+    } else if (nft.raw?.tokenUri) {
+      // If we have a tokenUri, convert it to IPFS gateway URL if needed
+      imageUrl = getIPFSGatewayURL(nft.raw.tokenUri);
+    } else {
+      imageUrl = "path/to/placeholder.png";
+    }
 
     // Get NFT name, fallback to token ID if name not available
     const name = nft.name || `Token ID: ${nft.tokenId}`;
 
+    // Get collection name if available
+    const collectionName =
+      nft.collection?.name || nft.contract?.name || "Unknown Collection";
+
+    // Get description or fallback
+    const description = nft.description || "No description available";
+
     card.innerHTML = `
       <img src="${imageUrl}" alt="${name}" onerror="this.src='path/to/placeholder.png'">
       <h3>${name}</h3>
-      <p>${nft.description || "No description available"}</p>
-      <p>Contract: ${nft.contract.address}</p>
+      <p class="collection-name">${collectionName}</p>
+      <p class="description">${description}</p>
+      <p class="contract-address">Contract: ${nft.contract.address}</p>
+      <p class="token-id">Token ID: ${nft.tokenId}</p>
+      ${nft.balance ? `<p class="balance">Balance: ${nft.balance}</p>` : ""}
     `;
 
     container.appendChild(card);
